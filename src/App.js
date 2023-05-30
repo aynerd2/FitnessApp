@@ -7,13 +7,15 @@ import ExerciseDetails from './pages/ExerciseDetails'
 import Navbar from './component/Navbar'
 import Footer from './component/Footer'
 
+
+
 const App = () => {
   return (
     <Box width="400px" sx={{width:{xl: '1488px'}}}>
     <Navbar/>
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/exercies:id'element={<ExerciseDetails/>} />
+      <Route path="/exercise/:id" element={<ExerciseDetails/>} />
     </Routes>
 
     <Footer/>
