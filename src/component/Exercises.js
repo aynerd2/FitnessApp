@@ -14,7 +14,12 @@ const Exercises = ({exercises, setExercises, bodyPart}) => {
       const indexoflastExercise = currentPage * exercisesPerpage;
       const indexofirstExercise = indexoflastExercise -  exercisesPerpage;
 
-      const currentExercises = exercises.slice(indexofirstExercise, indexoflastExercise)
+      // const currentExercises = exercises.slice(indexofirstExercise, indexoflastExercise)
+      const currentExercises =
+      exercises && exercises.length
+        ? exercises.slice(indexofirstExercise, indexoflastExercise)
+        : [];
+  
 
       const paginate = (e, value) =>{
             setCurrentPage(value);
@@ -22,27 +27,52 @@ const Exercises = ({exercises, setExercises, bodyPart}) => {
       }
 
 
-      useEffect(() => {
+      // useEffect(() => {
        
-            const fetchexerciseData = async ()=>{
-            let exerciseData = []
+      //       const fetchexerciseData = async ()=>{
+      //       let exerciseData = []
 
-            if (bodyPart === 'all'){
+      //       if (bodyPart === 'all'){
 
-                  exerciseData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', 
-                  exerciseOptions);
-            } else{
+      //             exerciseData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', 
+      //             exerciseOptions);
+      //       } else{
                   
-                  exerciseData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, 
-                  exerciseOptions);
-            }
-            setExercises(exerciseData)
+      //             exerciseData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, 
+      //             exerciseOptions);
+      //       }
+      //       setExercises(exerciseData)
 
-            }
+      //       }
         
-            fetchexerciseData()
-      }, [bodyPart])
+      //       fetchexerciseData()
+      // }, [bodyPart])
       
+
+      useEffect(() => {
+            const fetchExerciseData = async () => {
+              let exerciseData = [];
+        
+              try {
+                if (bodyPart === 'all') {
+                  exerciseData = await fetchData(
+                    'https://exercisedb.p.rapidapi.com/exercises',
+                    exerciseOptions
+                  );
+                } else {
+                  exerciseData = await fetchData(
+                    `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`,
+                    exerciseOptions
+                  );
+                }
+                setExercises(exerciseData);
+              } catch (error) {
+                console.error('Error fetching exercise data:', error);
+              }
+            };
+        
+            fetchExerciseData();
+          }, [bodyPart, setExercises]);
 
       return (
             <Box
